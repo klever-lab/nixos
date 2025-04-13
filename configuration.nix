@@ -7,7 +7,7 @@
     ];
 
   boot.loader.grub.enable = true;
-  # boot.loader.grub.device = "/dev/vda";
+  boot.loader.grub.device = "/dev/vda";
   boot.loader.grub.useOSProber = true;
 
   # networking.hostName = "nixos";
@@ -29,7 +29,7 @@
   #   pulse.enable = true;
   # };
 
-  users.users.techbro{
+  users.users.techbro = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" ];
   };
@@ -41,18 +41,19 @@
     rclone
     wget
     docker-compose
+    git
     vim
   ];
   
   # services
-  virtualization.docker.enable = true;
+  virtualisation.docker.enable = true;
   services.fail2ban.enable = true;
   services.openssh = {
     enable = true;
     knownHosts.kian.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKjHDfwYFZ2Il4jorG3WGQ6kjDOeEEJsdOfpyL5h6yKN";
-  }
+  };
 
-  networking.firewall.allowedTCPPorts = [ 22 ];
+  # networking.firewall.allowedTCPPorts = [ 22 ];
 
   system.stateVersion = "24.11";
   # Do NOT change this value

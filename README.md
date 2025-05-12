@@ -1,11 +1,7 @@
 # nixos
 a base nixos image for homelab machines
 
-### recommended usage
+just run bootstrap.sh from anywhere
 ```
-# switch to root
-cd /etc/nixos
-rm configuration.nix
-wget stuff
-nixos-rebuild switch
+curl https://raw.githubusercontent.com/klever-lab/nixos/refs/heads/main/bootstrap.sh | sudo sh
 ```

@@ -1,3 +1,5 @@
+set -e
+
 if [[ $(id --user) != 0 ]]
 then
   echo run as root!

@@ -8,7 +8,7 @@ cd /etc/nixos
 rm * .* 
 git clone https://github.com/klever-lab/nixos ./
 nixos-generate-config --show-hardware-config > hardware-configuration.nix
-nixos-rebuild switch
+nixos-rebuild switch --upgrade
 
 cat << END | lolcat --freq=0.2
 ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗

@@ -37,7 +37,7 @@
   services.fail2ban.enable = true;
   services.openssh = {
     enable = true;
-    knownHosts.kian.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKjHDfwYFZ2Il4jorG3WGQ6kjDOeEEJsdOfpyL5h6yKN";
+    knownHosts.klever_lab_pem.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEARczdeyItpeaHYdBGOS3YA6rTXPF6YZYtOq1grh+Vq";
   };
 
   systemd.timers."auto-update" = {

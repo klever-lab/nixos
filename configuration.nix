@@ -10,8 +10,8 @@
   boot.loader.grub.device = "/dev/vda";
   boot.loader.grub.useOSProber = true;
 
-  # networking.hostName = "nixos";
-  # networking.networkmanager.enable = true;
+  networking.hostName = "nixos";
+  networking.networkmanager.enable = true;
 
   time.timeZone = "America/Toronto";
 
@@ -21,15 +21,7 @@
     keyMap = "us";
   };
 
-  # Enable sound.
-  # hardware.pulseaudio.enable = true;
-  # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
-
-  users.users.techbro = {
+  users.users.nix-user= {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" ];
   };
@@ -38,11 +30,14 @@
   environment.systemPackages = with pkgs; [
     tree
     btop
+    lolcat
     rclone
     wget
     docker-compose
     git
-    nixpkgs-fmt
+    nixfmt
+    git
+    gh
         ((vim_configurable.override { }).customize {
       name = "vim";
       # Install plugins for example for syntax highlighting of nix files

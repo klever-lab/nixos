@@ -1,5 +1,5 @@
 # nixos
-a base nixos image for homelab machines
+os config for klever lab machines
 
 just run bootstrap.sh from anywhere
 ```

@@ -72,9 +72,12 @@
   systemd.services."auto-update" = {
     script = ''
       set -eu
-      cd /etc/nixos
-      if [[ `git status --porclein` ]]; then
+      cd /etc/nixos/
+      local_head_hash=$(git rev-parse HEAD)
+      remote_head_hash=$(git ls-remote https://github.com/klever-lab/nixos HEAD)
+      if [[ $remote_head_hash != $local_head_hash ]]; then
         git pull
+        # TODO add error catching if pull fails
         nixos-rebuild switch --upgrade --flake /etc/nixos/
       fi
       "

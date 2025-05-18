@@ -1,4 +1,4 @@
-set -e
+set -eu
 
 if [[ $(id --user) != 0 ]]
 then

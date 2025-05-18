@@ -68,11 +68,17 @@
     script = ''
       set -eu
       cd /etc/nixos/
+      echo changed directory to /etc/nixos/
       local_head_hash=$(git rev-parse HEAD)
-      remote_head_hash=$(git ls-remote https://github.com/klever-lab/nixos HEAD)
+      remote_head_hash=$(git ls-remote https://github.com/klever-lab/nixos HEAD | cut -f 1)
+      echo grabbed local and remote hash
+      echo "$local_head_hash"
+      echo "$remote_head_hash"
       if [[ $remote_head_hash != $local_head_hash ]]; then
+        echo detected upstream change, git pulling now
         git pull
         # TODO add error catching if pull fails
+        echo git pull succesful, rebuilding system now
         nixos-rebuild switch --upgrade --flake /etc/nixos/#klever-nixos
       fi
     '';
@@ -81,6 +87,10 @@
       User = "root";
     };
   };
+
+  environment.sessionVariables = {
+    EDITOR = "vim";
+  }
 
   environment.systemPackages = with pkgs; [
     tree

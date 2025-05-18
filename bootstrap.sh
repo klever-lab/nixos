@@ -21,9 +21,7 @@ then
 fi
 
 nixos-generate-config --show-hardware-config > hardware-configuration.nix
-nixos-rebuild switch --upgrade --flake /etc/nixos/
-
-
+nix-shell -p git --run 'nixos-rebuild switch --upgrade --flake /etc/nixos/'
 
 
 

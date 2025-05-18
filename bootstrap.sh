@@ -9,7 +9,7 @@ fi
 echo Decrypt secrets required for bootstrap 
 echo "(Passphrase for decrypting age private key)"
 mkdir -p "$HOME/.config/sops/age/"
-if ! nix-shell -p age --run 'cat sops-nix_primary_key.age age -d' > "$HOME/.config/sops/age/keys.txt";
+if ! nix-shell -p age --run 'cat sops-nix_primary_key.age age -d > "$HOME/.config/sops/age/keys.txt"';
 then
   echo decrypting age private key failed!!!
   exit

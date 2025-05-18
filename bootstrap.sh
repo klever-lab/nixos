@@ -6,6 +6,14 @@ then
   exit
 fi
 
+echo Decrypt secrets required for bootstrap 
+echo "(Passphrase for decrypting age private key)"
+if ! nix-shell -p age --run 'cat sops-nix_primary_key.age age -d' > "$HOME/.config/sops/age/keys.txt";
+then
+  echo decrypting age private key failed!!!
+  exit
+fi
+
 rm -rf /etc/nixos/
 mkdir /etc/nixos/
 cd /etc/nixos/

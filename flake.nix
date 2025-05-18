@@ -3,15 +3,14 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    inputs.sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs =
     {
       self,
       nixpkgs,
-      sops-nix,
-      ...
+      sops-nix
     }:
     {
       nixosConfigurations.klever-nixos = nixpkgs.lib.nixosSystem {

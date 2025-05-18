@@ -6,11 +6,27 @@ then
   exit
 fi
 
-cd /etc/nixos
-rm * .* 
+rm -rf /etc/nixos/
+mkdir /etc/nixos/
+cd /etc/nixos/
 git clone https://github.com/klever-lab/nixos ./
 nixos-generate-config --show-hardware-config > hardware-configuration.nix
-nixos-rebuild switch --upgrade
+nixos-rebuild switch --upgrade --flake /etc/nixos/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 cat << END | lolcat --freq=0.2
 ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗

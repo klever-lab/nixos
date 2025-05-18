@@ -8,7 +8,28 @@
 {
   imports = [
     ./hardware-configuration.nix
+    <sops-nix/modules/sops>
   ];
+
+  # This will add secrets.yml to the nix store
+  # You can avoid this by adding a string to the full path instead, i.e.
+  # sops.defaultSopsFile = "/root/.sops/secrets/secrets.yaml";
+  sops.defaultSopsFile = ./secrets/secrets.yaml;
+  # This is using an age key that is expected to already be in the filesystem
+  sops.age.keyFile = "/var/lib/sops-nix/key.txt";
+  # This will generate a new key if the key specified above does not exist
+  sops.age.generateKey = false;
+
+  # This is the actual specification of the secrets.
+  sops.secrets."tailscale/auth_key" = {
+    owner = config.users.users.klever.name
+  };
+
+  services.tailscale = {
+    enable = true;
+    authKeyfile = config.sops.secrets."tailscale/auth_key".path;
+  }
+
   system.stateVersion = "24.11";
 
   boot.loader.grub.enable = true;
@@ -25,7 +46,7 @@
     keyMap = "us";
   };
 
-  users.users.nix-user = {
+  users.users.klever {
     isNormalUser = true;
     extraGroups = [
       "wheel"
@@ -54,7 +75,7 @@
       cd /etc/nixos
       if [[ `git status --porclein` ]]; then
         git pull
-        nixos-rebuild switch --upgrade
+        nixos-rebuild switch --upgrade --flake /etc/nixos/
       fi
       "
     '';

@@ -93,6 +93,7 @@
     docker-compose
     lolcat
     age
+    sops
     ((vim_configurable.override { }).customize {
       name = "vim";
       vimrcConfig.packages.myplugins = with pkgs.vimPlugins; {

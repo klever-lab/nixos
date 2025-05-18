@@ -75,7 +75,6 @@
         # TODO add error catching if pull fails
         nixos-rebuild switch --upgrade --flake /etc/nixos/#klever-nixos
       fi
-      "
     '';
     serviceConfig = {
       Type = "oneshot";
@@ -87,7 +86,7 @@
     tree
     btop
     wget
-    nixfmt
+    nixfmt-rfc-style
     git
     gh
     rclone

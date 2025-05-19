@@ -16,13 +16,11 @@
   sops.defaultSopsFile = ./secrets/secrets.yaml;
 
   # This is the actual specification of the secrets.
-  sops.secrets."tailscale/auth_key" = {
-    owner = config.users.users.klever.name;
-  };
+  sops.secrets."tailscale-auth-key" = { };
 
   services.tailscale = {
     enable = true;
-    authKeyFile = config.sops.secrets."tailscale/auth_key".path;
+    authKeyFile = config.sops.secrets."tailscale-auth-key".path;
   };
 
   system.stateVersion = "24.11";

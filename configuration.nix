@@ -102,7 +102,7 @@
 
   environment.sessionVariables = {
     EDITOR = "vim";
-  }
+  };
 
   environment.systemPackages = with pkgs; [
     tree

@@ -14,7 +14,7 @@
   # You can avoid this by adding a string to the full path instead, i.e.
   # sops.defaultSopsFile = "/root/.sops/secrets/secrets.yaml";
   sops.defaultSopsFile = ./secrets/secrets.yaml;
-  sops.age.keyfile = "/root/.config/sops/age/keys.txt";
+  sops.age.keyFile = "/root/.config/sops/age/keys.txt";
 
   # This is the actual specification of the secrets.
   sops.secrets."tailscale-auth-key" = { };

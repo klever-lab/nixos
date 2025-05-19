@@ -46,13 +46,18 @@
       "wheel"
       "docker"
     ];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEARczdeyItpeaHYdBGOS3YA6rTXPF6YZYtOq1grh+Vq";
+    ];
   };
 
   virtualisation.docker.enable = true;
   services.fail2ban.enable = true;
   services.openssh = {
     enable = true;
-    knownHosts.klever_lab_pem.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEARczdeyItpeaHYdBGOS3YA6rTXPF6YZYtOq1grh+Vq";
+    settings = {
+      PasswordAuthentication = false;
+    };
   };
 
   systemd.timers."auto-update" = {

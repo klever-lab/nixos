@@ -72,7 +72,7 @@
       git
       nix
       coreutils
-    ]
+    ];
     script = ''
       set -eu
 

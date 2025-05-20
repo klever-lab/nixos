@@ -60,10 +60,10 @@ then
 
   # TODO use extrafiles to move over sops nix secrets
   nixos-anywhere -- --generate-hardware-config nixos-generate-config \
-              ./hardware-configuration.nix --flake .#$config_name \
+              ./nixosModules/hardware-configuration.nix --flake .#$config_name \
               --target-host $user@$host -i "$ssh_key_path"
 else
-  echo 'Are you bootstrapping a local or remote machine? [R|l]'
+  echo 'Are you bootstrapping this local machine or a remote machine over ssh? [R|l]'
   read -r remoteType
 
   if [[ "$remoteType" == "local" || "$remoteType" == "l" ]]
@@ -91,7 +91,7 @@ else
   mkdir /etc/nixos/
   cd /etc/nixos/
   nix-shell -p git --run 'git clone https://github.com/klever-lab/nixos ./'
-  nixos-generate-config --show-hardware-config > hardware-configuration.nix
+  nixos-generate-config --show-hardware-config > ./nixosModules/hardware-configuration.nix
   nix-shell -p git --run "nixos-rebuild switch --flake /etc/nixos/#$config_name"
 fi
 

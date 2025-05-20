@@ -19,17 +19,21 @@
       nixosConfigurations.bare-metal = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./nixosModules/bm_config.nix
           ./nixosModules/common.nix
+          ./nixosModules/hardware-configuration.nix
           sops-nix.nixosModules.sops
+
+          ./nixosModules/bm_config.nix
         ];
       };
       nixosConfigurations.virtual-machine = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./nixosModules/vm_config.nix
           ./nixosModules/common.nix
+          ./nixosModules/hardware-configuration.nix
           sops-nix.nixosModules.sops
+
+          ./nixosModules/vm_config.nix
         ];
       };
 
@@ -38,22 +42,24 @@
       nixosConfigurations.generic-cloud = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./nixosModules/vm_config.nix
-          ./nixosModules/hardware-configuration.nix
           ./nixosModules/common.nix
-          ./nixosModules/vm_disk-config.nix
+          ./nixosModules/hardware-configuration.nix
           sops-nix.nixosModules.sops
+
+          ./nixosModules/vm_config.nix
+          ./nixosModules/vm_disk-config.nix
           disko.nixosModules.disko
         ];
       };
      nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./nixosModules/vm_config.nix
-          ./nixosModules/hardware-configuration.nix
           ./nixosModules/common.nix
-          ./nixosModules/disk-config.nix
+          ./nixosModules/hardware-configuration.nix
           sops-nix.nixosModules.sops
+
+          ./nixosModules/vm_config.nix
+          ./nixosModules/vm_disk-config.nix
           disko.nixosModules.disko
           { disko.devices.disk.disk1.device = "/dev/vda"; }
           {

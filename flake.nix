@@ -15,7 +15,7 @@
       disko,
     }:
     {
-      nixosConfigurations.klever-nixos = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.generic-bm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./nixosModules/baremetal_config.nix
@@ -35,6 +35,7 @@
           ./nixosModules/disk-config.nix
           sops-nix.nixosModules.sops
           disko.nixosModules.disko
+          { disko.devices.disk.disk1.device = "/dev/vda"; }
         ];
       };
      nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {

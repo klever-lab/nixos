@@ -62,11 +62,19 @@ then
               --target-host $user@$host -i "$ssh_key_path"
 else
   echo 'Are you bootstrapping a local or remote machine? [R|l]'
-  read -r machineType
+  read -r remoteType
 
-  if [[ "$machineType" == "local" || "$machineType" == "l" ]]
+  if [[ "$remoteType" == "local" || "$remoteType" == "l" ]]
   then
-    echo
+    echo 'Is this a Virtual machine or Bare metal? [v|b]'
+    read -r machineType
+    if [[ "$machineType" == v ]]
+    then
+      config_name="generic-vm"
+    else [[ "$machineType" == b ]]
+    then
+      config_name="generic-bm"
+    fi
   else
     echo for provisioning REMOTE VIRTUAL MACHINES follow these steps
     echo "Usage: ${0##*/} <config_name> <user> <host> <ssh_key_path>"
@@ -82,7 +90,7 @@ else
   cd /etc/nixos/
   nix-shell -p git --run 'git clone https://github.com/klever-lab/nixos ./'
   nixos-generate-config --show-hardware-config > hardware-configuration.nix
-  nix-shell -p git --run 'nixos-rebuild switch --upgrade --flake /etc/nixos/#klever-nixos'
+  nix-shell -p git --run "nixos-rebuild switch --upgrade --flake /etc/nixos/#$config_name"
 fi
 
 

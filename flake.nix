@@ -16,7 +16,7 @@
     }:
     {
       # use only with nixos-rebuild
-      nixosConfigurations.bare-metal = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.klever-nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./nixosModules/common.nix
@@ -26,17 +26,6 @@
           ./nixosModules/bm_config.nix
         ];
       };
-      nixosConfigurations.virtual-machine = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./nixosModules/common.nix
-          ./nixosModules/hardware-configuration.nix
-          sops-nix.nixosModules.sops
-
-          ./nixosModules/vm_config.nix
-        ];
-      };
-
 
       # use only with nixos-anywhere
       nixosConfigurations.generic-cloud = nixpkgs.lib.nixosSystem {

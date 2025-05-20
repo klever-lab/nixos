@@ -70,18 +70,7 @@ else
 
   if [[ "$remoteType" == "local" || "$remoteType" == "l" ]]
   then
-    echo 'Is this a Virtual machine or Bare metal? [v|b]'
-    read -r machineType
-    if [[ "$machineType" == v ]]
-    then
-      config_name="virtual-machine"
-    elif [[ "$machineType" == b ]]
-    then
-      config_name="bare-metal"
-    else
-      echo idk what u want
-      exit 1
-    fi
+    echo Proceeding with local configuration
   else
     echo for provisioning REMOTE VIRTUAL MACHINES follow these steps
     echo "Usage: ${0##*/} <config_name> <user> <host> <ssh_key_path>"
@@ -97,7 +86,7 @@ else
   cd /etc/nixos/
   nix-shell -p git --run 'git clone https://github.com/klever-lab/nixos ./'
   nixos-generate-config --show-hardware-config > ./nixosModules/hardware-configuration.nix
-  nix-shell -p git --run "nixos-rebuild switch --flake /etc/nixos/#$config_name"
+  nix-shell -p git --run "nixos-rebuild switch --flake /etc/nixos/#klever-nixos"
 fi
 
 

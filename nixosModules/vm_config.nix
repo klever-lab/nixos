@@ -12,6 +12,7 @@
   ];
   boot.loader.grub = {
     enable = true;
-    devices =  [ "/dev/vda" ];
+    device = "/dev/vda";
+    efiSupport = true;
   };
 }

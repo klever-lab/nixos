@@ -115,6 +115,7 @@
     lolcat
     age
     sops
+    lsof
     ((vim_configurable.override { }).customize {
       name = "vim";
       vimrcConfig.packages.myplugins = with pkgs.vimPlugins; {

@@ -76,8 +76,7 @@ else
     echo "Usage: ${0##*/} <config_name> <user> <host> <ssh_key_path>"
     echo "e.g.   ${0##*/} digitalocean root 192.168.0.1 ~/.ssh/klever-lab.pem"
     echo
-    echo Available Configs: digitalocean, generic
-    echo "(check flake.nix for all configs)"
+    echo Available Configs: digitalocean, generic-cloud
     exit 1
   fi
 

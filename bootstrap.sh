@@ -74,6 +74,7 @@ else
     then
       config_name="virtual-machine"
     elif [[ "$machineType" == b ]]
+    then
       config_name="bare-methal"
     fi
   else

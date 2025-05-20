@@ -29,7 +29,7 @@
       nixosConfigurations.generic-vm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./nixosModules/cloud_config.nix
+          ./nixosModules/vm_config.nix
           ./nixosModules/hardware-configuration.nix
           ./nixosModules/common.nix
           ./nixosModules/disk-config.nix
@@ -41,7 +41,7 @@
      nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./nixosModules/cloud_config.nix
+          ./nixosModules/vm_config.nix
           ./nixosModules/hardware-configuration.nix
           ./nixosModules/common.nix
           ./nixosModules/disk-config.nix

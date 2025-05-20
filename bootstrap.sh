@@ -75,7 +75,7 @@ else
       config_name="virtual-machine"
     elif [[ "$machineType" == b ]]
     then
-      config_name="bare-methal"
+      config_name="bare-metal"
     fi
   else
     echo for provisioning REMOTE VIRTUAL MACHINES follow these steps

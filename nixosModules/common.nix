@@ -6,10 +6,6 @@
 }:
 
 {
-  imports = [
-    ./hardware-configuration.nix
-  ];
-
   # This will add secrets.yml to the nix store
   # You can avoid this by adding a string to the full path instead, i.e.
   # sops.defaultSopsFile = "/root/.sops/secrets/secrets.yaml";
@@ -23,8 +19,6 @@
     enable = true;
     authKeyFile = config.sops.secrets."tailscale-auth-key".path;
   };
-
-  system.stateVersion = "24.11";
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
@@ -142,6 +136,9 @@
       '';
     })
   ];
+
+  system.stateVersion = "24.11";
+
   nix.settings.experimental-features = [
     "flakes"
   ];

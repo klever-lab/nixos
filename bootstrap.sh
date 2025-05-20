@@ -61,13 +61,12 @@ then
               ./hardware-configuration.nix --flake .#$config_name \
               --target-host $user@$host -i "$ssh_key_path"
 else
-  echo Are you bootstrapping a local or remote machine?
-  echo -n '[REMOTE|local]'
+  echo 'Are you bootstrapping a local or remote machine? [R|l]'
   read -r machineType
 
   if [[ "$machineType" == "local" || "$machineType" == "l" ]]
   then
-    continue
+    echo
   else
     echo for provisioning REMOTE VIRTUAL MACHINES follow these steps
     echo "Usage: ${0##*/} <config_name> <user> <host> <ssh_key_path>"

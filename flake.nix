@@ -19,7 +19,7 @@
       nixosConfigurations.bare-metal = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./nixosModules/b_config.nix
+          ./nixosModules/bm_config.nix
           ./nixosModules/common.nix
           sops-nix.nixosModules.sops
         ];

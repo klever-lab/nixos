@@ -70,9 +70,11 @@ else
     read -r machineType
     if [[ "$machineType" == v ]]
     then
-      config_name="generic-vm"
+      config_name="virtual-machine"
+      disk_config_name="vm_disk-config.nix"
     else [[ "$machineType" == b ]]
-      config_name="generic-bm"
+      config_name="bare-methal"
+      disk_config_name="bm_disk-config.nix"
     fi
   else
     echo for provisioning REMOTE VIRTUAL MACHINES follow these steps
@@ -90,7 +92,7 @@ else
   nix-shell -p git --run 'git clone https://github.com/klever-lab/nixos ./'
   nixos-generate-config --show-hardware-config > hardware-configuration.nix
 
-  nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount ./nixosModules/vm_disk-config.nix
+  nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount ./nixosModules/"$disk_config_name"
 
   nix-shell -p git --run "nixos-rebuild switch --upgrade --flake /etc/nixos/#$config_name"
 fi

@@ -9,7 +9,7 @@
   # This will add secrets.yml to the nix store
   # You can avoid this by adding a string to the full path instead, i.e.
   # sops.defaultSopsFile = "/root/.sops/secrets/secrets.yaml";
-  sops.defaultSopsFile = "../secrets.yaml";
+  sops.defaultSopsFile = "./secrets.yaml";
   sops.age.keyFile = "/root/.config/sops/age/keys.txt";
 
   # This is the actual specification of the secrets.

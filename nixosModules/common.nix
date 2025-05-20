@@ -43,6 +43,7 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEARczdeyItpeaHYdBGOS3YA6rTXPF6YZYtOq1grh+Vq"
     ];
+    hashedPassword = "$y$j9T$XVmYyHEbVglIEY64lv1mb0$OkKXqS9DA7otxrDweT3ZhaoEQe10UHYqTN8tGlz4Dq5";
   };
 
   virtualisation.docker.enable = true;

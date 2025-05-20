@@ -33,12 +33,26 @@ else
 fi
 
 
-rm -rf /etc/nixos/
-mkdir /etc/nixos/
-cd /etc/nixos/
-nix-shell -p git --run 'git clone https://github.com/klever-lab/nixos ./'
-nixos-generate-config --show-hardware-config > ./nixosModules/hardware-configuration.nix
-nix-shell -p git --run "nixos-rebuild switch --flake /etc/nixos/#klever-nixos"
+if [[ $# -eq 4 ]]
+then
+  config_name="$1"
+  user="$2"
+  host="$3"
+  ssh_key_path="$4"
+
+  # TODO use extrafiles to move over sops nix secrets
+  nixos-anywhere -- --generate-hardware-config nixos-generate-config \
+              ./nixosModules/hardware-configuration.nix --flake .#$config_name \
+              --target-host $user@$host -i "$ssh_key_path"
+else
+  echo
+  echo "Usage: ${0##*/} <config_name> <user> <host> <ssh_key_path>"
+  echo "e.g.   ${0##*/} digitalocean root 192.168.0.1 ~/.ssh/klever-lab.pem"
+  echo
+  echo Available Configs: digitalocean, generic-cloud
+  exit 1
+fi
+
 
 
 

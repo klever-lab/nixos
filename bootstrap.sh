@@ -62,7 +62,8 @@ then
               --target-host $user@$host -i "$ssh_key_path"
 else
   echo Are you bootstrapping a local or remote machine?
-  read -r "[REMOTE|local]" machineType
+  echo -n '[REMOTE|local]'
+  read -r machineType
 
   if [[ "$machineType" == "local" || "$machineType" == "l" ]]
   then

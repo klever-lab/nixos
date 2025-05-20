@@ -28,6 +28,8 @@ fi
 
 if [[ ! -f "$HOME/.config/sops/age/keys.txt" ]]
 then
+  mkdir -i "$HOME/.config/sops/age/keys.txt" 
+
   # check if yubikey is plugged in
   if nix-shell -p usbutils --run 'lsusb | grep Yubikey' # TODO select serial and slot
   then
@@ -71,10 +73,8 @@ else
     if [[ "$machineType" == v ]]
     then
       config_name="virtual-machine"
-      disk_config_name="vm_disk-config.nix"
-    else [[ "$machineType" == b ]]
+    else if [[ "$machineType" == b ]]
       config_name="bare-methal"
-      disk_config_name="bm_disk-config.nix"
     fi
   else
     echo for provisioning REMOTE VIRTUAL MACHINES follow these steps
@@ -91,10 +91,7 @@ else
   cd /etc/nixos/
   nix-shell -p git --run 'git clone https://github.com/klever-lab/nixos ./'
   nixos-generate-config --show-hardware-config > hardware-configuration.nix
-
-  nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount ./nixosModules/"$disk_config_name"
-
-  nix-shell -p git --run "nixos-rebuild switch --upgrade --flake /etc/nixos/#$config_name"
+  nix-shell -p git --run "nixos-rebuild switch --flake /etc/nixos/#$config_name"
 fi
 
 

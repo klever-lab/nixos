@@ -32,10 +32,9 @@
           ./nixosModules/vm_config.nix
           ./nixosModules/hardware-configuration.nix
           ./nixosModules/common.nix
-          ./nixosModules/disk-config.nix
+          ./nixosModules/vm_disk-config.nix
           sops-nix.nixosModules.sops
           disko.nixosModules.disko
-          { disko.devices.disk.disk1.device = "/dev/vda"; }
         ];
       };
      nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {

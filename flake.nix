@@ -23,7 +23,7 @@
           ./nixosModules/hardware-configuration.nix
           sops-nix.nixosModules.sops
 
-          ./nixosModules/bm_config.nix
+          ./nixosModules/config.nix
         ];
       };
 
@@ -35,8 +35,8 @@
           ./nixosModules/hardware-configuration.nix
           sops-nix.nixosModules.sops
 
-          ./nixosModules/vm_config.nix
-          ./nixosModules/vm_disk-config.nix
+          ./nixosModules/cloud_config.nix
+          ./nixosModules/cloud_disk-config.nix
           disko.nixosModules.disko
         ];
       };
@@ -47,8 +47,8 @@
           ./nixosModules/hardware-configuration.nix
           sops-nix.nixosModules.sops
 
-          ./nixosModules/vm_config.nix
-          ./nixosModules/vm_disk-config.nix
+          ./nixosModules/cloud_config.nix
+          ./nixosModules/cloud_disk-config.nix
           disko.nixosModules.disko
           { disko.devices.disk.disk1.device = "/dev/vda"; }
           {

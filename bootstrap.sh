@@ -89,6 +89,9 @@ else
   cd /etc/nixos/
   nix-shell -p git --run 'git clone https://github.com/klever-lab/nixos ./'
   nixos-generate-config --show-hardware-config > hardware-configuration.nix
+
+  nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount ./nixosModules/vm_disk-config.nix
+
   nix-shell -p git --run "nixos-rebuild switch --upgrade --flake /etc/nixos/#$config_name"
 fi
 

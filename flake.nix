@@ -1,5 +1,5 @@
 {
-  description = "klever-lab nixos config";
+  description = "klever-lab nixos configs";
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
@@ -15,18 +15,27 @@
       disko,
     }:
     {
-      nixosConfigurations.generic-bm = nixpkgs.lib.nixosSystem {
+      # use only with nixos-rebuild
+      nixosConfigurations.bare-metal = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./nixosModules/baremetal_config.nix
-          ./nixosModules/hardware-configuration.nix
+          ./nixosModules/b_config.nix
           ./nixosModules/common.nix
-          ./nixosModules/disk-config.nix
           sops-nix.nixosModules.sops
-          disko.nixosModules.disko
         ];
       };
-      nixosConfigurations.generic-vm = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.virtual-machine = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./nixosModules/vm_config.nix
+          ./nixosModules/common.nix
+          sops-nix.nixosModules.sops
+        ];
+      };
+
+
+      # use only with nixos-anywhere
+      nixosConfigurations.generic-cloud = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./nixosModules/vm_config.nix

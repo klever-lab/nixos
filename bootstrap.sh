@@ -26,8 +26,10 @@ then
   exit 1
 fi
 
-if [[ ! -f "$HOME/.config/sops/age/keys.txt" ]]
+if [[ -s "$HOME/.config/sops/age/keys.txt" ]]
 then
+  echo Detected that "$HOME/.config/sops/age/keys.txt" is present, skipping step
+else
   mkdir -p "$HOME/.config/sops/age" 
 
   # check if yubikey is plugged in

@@ -13,7 +13,7 @@
   boot.loader.grub = {
     enable = true;
     device = "/dev/vda";
-    useOSProver = true;
+    useOSProber = true;
     efiSupport = true;
   };
 }

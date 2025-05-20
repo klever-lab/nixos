@@ -72,7 +72,6 @@ else
     then
       config_name="generic-vm"
     else [[ "$machineType" == b ]]
-    then
       config_name="generic-bm"
     fi
   else

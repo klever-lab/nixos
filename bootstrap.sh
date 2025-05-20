@@ -28,7 +28,7 @@ fi
 
 if [[ ! -f "$HOME/.config/sops/age/keys.txt" ]]
 then
-  mkdir -i "$HOME/.config/sops/age/keys.txt" 
+  mkdir -p "$HOME/.config/sops/age/keys.txt" 
 
   # check if yubikey is plugged in
   if nix-shell -p usbutils --run 'lsusb | grep Yubikey' # TODO select serial and slot

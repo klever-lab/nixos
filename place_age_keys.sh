@@ -13,8 +13,7 @@ else
   if lsusb | grep Yubikey
   then
     # setup pcscd for reading yubikey
-    export NIX_CONFIG="experimental-features = nix-command"
-    sudo ln -sf "$(nix eval --raw nixpkgs#ccid)/pcsc/" /var/lib/
+    sudo ln -sf "$(nix eval --raw nixpkgs#ccid --extra-experimental-features nix-command)/pcsc/" /var/lib/
     sudo pcscd --auto-exit
 
     # check if decryption failed

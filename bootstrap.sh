@@ -6,32 +6,7 @@ then
   exit 1
 fi
 
-if [[ -s "$HOME/.config/sops/age/keys.txt" ]]
-then
-  echo Detected that "$HOME/.config/sops/age/keys.txt" is present, skipping step
-else
-  mkdir -p "$HOME/.config/sops/age" 
-
-  # check if yubikey is plugged in
-  if nix-shell -p usbutils --run 'lsusb | grep Yubikey' # TODO select serial and slot
-  then
-    # check if decryption failed
-    if ! nix-shell -p age-plugin-yubikey --run 'age-plugin-yubikey -i --serial 30474330 --slot 1 > "$HOME/.config/sops/age/keys.txt"'
-    then
-      echo accessing yubikey for age private key failed!!!
-      exit 1
-    fi
-  else
-    echo "(Passphrase for decrypting age private key from file)"
-    # check if decryption failed
-    if ! nix-shell -p age --run 'cat sops-nix_primary_key.age | age -d > "$HOME/.config/sops/age/keys.txt"'
-    then
-      echo decrypting age private key failed!!!
-      exit 1
-    fi
-  fi
-fi
-
+./place_age_keys.sh
 
 rm -rf /etc/nixos/
 mkdir /etc/nixos/
@@ -42,14 +17,7 @@ nix-shell -p git --run "nixos-rebuild switch --flake /etc/nixos/#klever-nixos"
 
 
 
-
-
-
-
 # :3
-
-
-
 
 
 

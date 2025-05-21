@@ -1,3 +1,5 @@
+set -eu
+
 if [[ -s "$HOME/.config/sops/age/keys.txt" ]]
 then
   echo Detected that "$HOME/.config/sops/age/keys.txt" is present, skipping step
@@ -9,7 +11,7 @@ else
   then
     # setup pcscd for reading yubikey
     nix-shell -p pcsclite ccid --run '''
-    sudo ln -s $(nix eval --raw nixpkgs#ccid)/pcsc/ /var/lib/
+    sudo ln -sf $(nix eval --raw nixpkgs#ccid)/pcsc/ /var/lib/
     sudo pcscd --auto-exit
     '''
     # check if decryption failed

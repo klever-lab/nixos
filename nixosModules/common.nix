@@ -113,6 +113,7 @@
     age
     sops
     lsof
+    age-plugin-yubikey
     ((vim_configurable.override { }).customize {
       name = "vim";
       vimrcConfig.packages.myplugins = with pkgs.vimPlugins; {

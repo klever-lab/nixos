@@ -40,6 +40,19 @@
           disko.nixosModules.disko
         ];
       };
+      nixosConfigurations.aws-ec2 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./nixosModules/common.nix
+          ./nixosModules/hardware-configuration.nix
+          sops-nix.nixosModules.sops
+
+          ./nixosModules/cloud_config.nix
+          ./nixosModules/cloud_disk-config.nix
+          disko.nixosModules.disko
+          { disko.devices.disk.disk1.device = "/dev/nvme0n1"; }
+        ];
+      };
      nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [

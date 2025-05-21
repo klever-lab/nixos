@@ -20,10 +20,6 @@
     authKeyFile = config.sops.secrets."tailscale-auth-key".path;
   };
 
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/vda";
-  boot.loader.grub.useOSProber = true;
-
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
@@ -43,7 +39,7 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEARczdeyItpeaHYdBGOS3YA6rTXPF6YZYtOq1grh+Vq"
     ];
-    hashedPassword = "$y$j9T$XVmYyHEbVglIEY64lv1mb0$OkKXqS9DA7otxrDweT3ZhaoEQe10UHYqTN8tGlz4Dq5";
+    hashedPassword = "$y$j9T$Mt1cUK/pYkpq0M0PwO5QN0$MRRrMwv11J58ypliAC7rp6HS7d0uolHx9fR6TJlTIQ9";
   };
 
   virtualisation.docker.enable = true;

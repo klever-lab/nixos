@@ -1,8 +1,8 @@
 # nixos
 os config for klever lab machines
 
-To configure over ssh, run bootstrap.sh from your machine
-To configure locally, install nixos on the machine then run bootsrap.sh
+To configure over ssh, run nixosanywhere.sh from your machine
+To configure locally, install nixos on the machine then run bootstrap.sh
 
 
 ```

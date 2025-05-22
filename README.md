@@ -10,6 +10,4 @@ curl --silent https://raw.githubusercontent.com/klever-lab/nixos/refs/heads/main
 ```
 
 
-ways to decrypt sops secrets:
-1. `&primary`: password which decrypts sops-nix_primary_key.age
-2. `&kian_yubikey`: slot 1 on my personal Yubikey 
+the secret management here is an absolute clusterfuck

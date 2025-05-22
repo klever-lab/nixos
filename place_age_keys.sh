@@ -17,7 +17,7 @@ else
     sudo ln -sf "$(nix eval --raw nixpkgs#ccid --extra-experimental-features nix-command)/pcsc/" /var/lib/
     sudo pcscd --auto-exit
 
-    if ! age -d sops-nix_primary_key.age_yubikey -i yubikey_identity > "$HOME/.config/sops/age/keys.txt"
+    if ! age -i yubikey_identity -d sops-nix_primary_key.age_yubikey > "$HOME/.config/sops/age/keys.txt"
     then
       echo accessing yubikey for age private key failed!!!
       exit 1

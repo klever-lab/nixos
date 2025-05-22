@@ -1,35 +1,54 @@
 #!/usr/bin/env nix-shell
 #!nix-shell -p usbutils pcsclite ccid age-plugin-yubikey age -i bash
+set -euo pipefail
 
-set -eu
+KEYFILE="$HOME/.config/sops/age/keys.txt"
 
-if [[ -s "$HOME/.config/sops/age/keys.txt" ]]
-then
-  echo Detected that "$HOME/.config/sops/age/keys.txt" is present, skipping step
+if [[ -s "$KEYFILE" ]]; then
+  echo "Detected existing $KEYFILE – skipping decryption step."
+  exit 0
+fi
+
+mkdir -p "$(dirname "$KEYFILE")"
+
+have_yubikey() {
+  lsusb | grep -qi 'yubikey'
+}
+
+enable_pcscd_once() {
+  local cfg=/etc/nixos/configuration.nix
+
+  # services.pcscd.enable
+  if ! grep -q 'services\.pcscd\.enable.*true' "$cfg"; then
+    sudo sed -i '/^}$/i\  services.pcscd.enable = true;' "$cfg"
+  fi
+
+  # age‑plugin‑yubikey in systemPackages
+  if ! grep -q 'age-plugin-yubikey' "$cfg"; then
+    sudo sed -i '/^}$/i\  environment.systemPackages = with pkgs; [ age-plugin-yubikey ];' "$cfg"
+  fi
+}
+
+if have_yubikey; then
+  echo "🔑  YubiKey detected."
+
+  enable_pcscd_once
+  sudo nixos-rebuild switch
+
+  if ! sopsKeyValue=$(age-plugin-yubikey -i); then
+    echo "ERROR: accessing YubiKey for age private key failed!" >&2
+    exit 1
+  fi
 else
-  mkdir -p "$HOME/.config/sops/age" 
-
-  # check if yubikey is plugged in
-  if lsusb | grep Yubikey
-  then
-    # setup pcscd for reading yubikey
-    sudo ln -sf "$(nix eval --raw nixpkgs#ccid --extra-experimental-features nix-command)/pcsc/" /var/lib/
-    sudo pcscd --auto-exit
-
-    # check if decryption failed
-    if ! age-plugin-yubikey -i > "$HOME/.config/sops/age/keys.txt"
-    then
-      echo accessing yubikey for age private key failed!!!
-      exit 1
-    fi
-  else
-    echo "(Passphrase for decrypting age private key from file)"
-    # check if decryption failed
-    if ! age -d sops-nix_primary_key.age > "$HOME/.config/sops/age/keys.txt"
-    then
-      echo decrypting age private key failed!!!
-      exit 1
-    fi
+  echo "🔓  No YubiKey detected – falling back to .age file."
+  if ! sopsKeyValue=$(age -d sops-nix_primary_key.age); then
+    echo "ERROR: decrypting age private key failed!" >&2
+    exit 1
   fi
 fi
+
+# Persist the key
+printf '%s\n' "$sopsKeyValue" >> "$KEYFILE"
+chmod 600 "$KEYFILE"
+echo "✅  Saved private key to $KEYFILE"
 

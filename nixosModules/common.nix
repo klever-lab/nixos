@@ -10,11 +10,11 @@
   # You can avoid this by adding a string to the full path instead, i.e.
   # sops.defaultSopsFile = "/root/.sops/secrets/secrets.yaml";
   sops.defaultSopsFile = ../secrets.yaml;
-  sops.gnupg.sshKeyPaths = [];
   sops.age.keyFile = "/root/.config/sops/age/keys.txt";
 
   # This is the actual specification of the secrets.
   sops.secrets."tailscale-auth-key" = { };
+  services.pcscd.enable = true;
 
   services.tailscale = {
     enable = true;

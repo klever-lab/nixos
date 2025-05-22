@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -p usbutils pcsclite ccid age -i bash
+#!nix-shell -p usbutils pcsclite ccid age age-plugin-yubikey -i bash
 
 set -euo pipefail
 

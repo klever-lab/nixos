@@ -1,7 +1,7 @@
 #!/usr/bin/env nix-shell
 #!nix-shell -p usbutils pcsclite ccid age -i bash
 
-set -eu
+set -euo pipefail
 
 if [[ -s "$HOME/.config/sops/age/keys.txt" ]]
 then
@@ -14,7 +14,7 @@ else
   if lsusb | grep Yubikey
   then
     # setup pcscd for reading yubikey
-    sudo ln -sf "$(nix eval --raw nixpkgs#ccid --extra-experimental-features nix-command)/pcsc/" /var/lib/
+    sudo ln -sf "$(nix eval --raw nixpkgs#ccid --extra-experimental-features 'nix-command flakes')/pcsc/" /var/lib/
     sudo pcscd --auto-exit
 
     if ! age -i yubikey_identity -d sops-nix_primary_key.age_yubikey > "$HOME/.config/sops/age/keys.txt"

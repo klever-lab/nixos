@@ -36,13 +36,13 @@ if have_yubikey; then
   enable_pcscd_once
   sudo nixos-rebuild switch
 
-  if ! sopsKeyValue=$(age-plugin-yubikey -i); then
+  if ! sopsKeyValue=$(age -i yubikey_identity -d sops-nix_primary_key.age_yubikey); then
     echo "ERROR: accessing YubiKey for age private key failed!" >&2
     exit 1
   fi
 else
   echo "🔓  No YubiKey detected – falling back to .age file."
-  if ! sopsKeyValue=$(age -d sops-nix_primary_key.age); then
+  if ! sopsKeyValue=$(age -d sops-nix_primary_key.age_password); then
     echo "ERROR: decrypting age private key failed!" >&2
     exit 1
   fi

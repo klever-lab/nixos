@@ -13,7 +13,7 @@ mkdir /etc/nixos/
 cd /etc/nixos/
 nix-shell -p git --run 'git clone https://github.com/klever-lab/nixos ./'
 nixos-generate-config --show-hardware-config > ./nixosModules/hardware-configuration.nix
-nix-shell -p git --run "nixos-rebuild switch --flake /etc/nixos/#klever-nixos"
+nix-shell -p git --run "nixos-rebuild switch --flake /etc/nixos/#klever-nixos --extra-experimental-features flakes"
 
 
 

@@ -17,6 +17,7 @@ have_yubikey() {
 
 enable_pcscd_once() {
   local cfg=/etc/nixos/configuration.nix
+  nixos-generate-config --force --dir "$cfg"
 
   # services.pcscd.enable
   if ! grep -q 'services\.pcscd\.enable.*true' "$cfg"; then

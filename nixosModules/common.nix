@@ -42,11 +42,6 @@
     ];
     hashedPassword = "$y$j9T$Mt1cUK/pYkpq0M0PwO5QN0$MRRrMwv11J58ypliAC7rp6HS7d0uolHx9fR6TJlTIQ9";
   };
-  users.users.root = {
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEARczdeyItpeaHYdBGOS3YA6rTXPF6YZYtOq1grh+Vq"
-    ];
-  }
 
   virtualisation.docker.enable = true;
   services.fail2ban.enable = true;

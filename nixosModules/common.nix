@@ -69,6 +69,7 @@
       git
       nix
       coreutils
+      nixos-rebuild
     ];
     script = ''
       set -eu

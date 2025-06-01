@@ -32,7 +32,6 @@ else
   user="$2"
   host="$3"
   ssh_key_path="$4"
-  # TODO use extrafiles to move over sops nix secrets
   nixos-anywhere -- --generate-hardware-config nixos-generate-config \
               ./nixosModules/hardware-configuration.nix --flake .#$config_name \
               --target-host $user@$host -i "$ssh_key_path" \

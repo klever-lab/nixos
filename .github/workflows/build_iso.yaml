@@ -15,7 +15,7 @@ jobs:
         uses: cachix/install-nix-action@v31
 
       - name: Build ISO
-        run: ./make_iso.sh
+        run: ./scripts/make_iso.sh
 
       - name: Upload ISO as artifact
         uses: actions/upload-artifact@v4

@@ -6,7 +6,7 @@ then
   exit 1
 fi
 
-./place_age_keys.sh
+./place_sops_key.sh
 
 rm -rf /etc/nixos/
 mkdir /etc/nixos/

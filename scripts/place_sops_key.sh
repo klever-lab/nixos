@@ -19,20 +19,20 @@ have_yubikey() {
 if have_yubikey; then
   echo "🔑  YubiKey detected."
   echo Enter PIN and touch the device
-  if ! sopsKeyValue=$(age -i yubikey_identity -d sops-nix_primary_key.age_yubikey); then
+  if ! sopsKeyValue=$(age -i ../secrets/yubikey_identity -d ../secrets/sops-nix_primary_key.age_yubikey); then
     echo "ERROR: accessing YubiKey for age private key failed!" >&2
     exit 1
   fi
 
 else
   echo "🔓  No YubiKey detected – falling back to .age_password."
-  if ! sopsKeyValue=$(age -d sops-nix_primary_key.age_password); then
+  if ! sopsKeyValue=$(age -d ../secrets/sops-nix_primary_key.age_password); then
     echo "ERROR: decrypting age private key failed!" >&2
     exit 1
   fi
 fi
 
-# Persist the key
+# Save the key to where sops expects it to be
 printf '%s\n' "$sopsKeyValue" >> "$KEYFILE"
 chmod 600 "$KEYFILE"
 echo "✅  Saved private key to $KEYFILE"

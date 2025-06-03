@@ -72,23 +72,35 @@
       nixos-rebuild
     ];
     script = ''
-      set -eu
+      set -euo pipefail
 
-      local_head_hash=$(git rev-parse HEAD)
-      remote_head_hash=$(git ls-remote https://github.com/klever-lab/nixos HEAD | cut -f 1)
+      REPO_URL="https://github.com/klever-lab/nixos"
+      LOCAL_DIR="/etc/nixos"
+
+      # Check if the repo exists locally, clone if not
+      if [ ! -d "$LOCAL_DIR/.git" ]; then
+        echo "Local repo not found, cloning..."
+        git clone "$REPO_URL" "$LOCAL_DIR"
+        echo "Clone successful. exiting"
+        exit 0
+      fi
+
+      # Get local and remote HEAD hashes
+      local_head_hash=$(git -C "$LOCAL_DIR" rev-parse HEAD)
+      remote_head_hash=$(git ls-remote "$REPO_URL" HEAD | cut -f 1)
 
       echo grabbed local and remote hash
       echo "$local_head_hash"
       echo "$remote_head_hash"
 
       if [[ $remote_head_hash != $local_head_hash ]]; then
-        echo detected upstream change, git pulling now
-        git pull
-        # TODO add error catching if pull fails
-        echo git pull succesful, rebuilding system now
-        nixos-rebuild switch --upgrade --flake /etc/nixos/#klever-nixos
+        echo "detected upstream change, git pulling now"
+        git -C "$LOCAL_DIR" pull
+        # TODO: add error catching if pull fails
+        echo "git pull successful, rebuilding system now"
+        nixos-rebuild switch --upgrade --flake "$LOCAL_DIR#klever-nixos"
       else
-        echo no change, nothing to do
+        echo "no change, nothing to do"
       fi
     '';
     serviceConfig = {
@@ -116,6 +128,7 @@
     sops
     lsof
     age-plugin-yubikey
+    fastfetch
     ((vim_configurable.override { }).customize {
       name = "vim";
       vimrcConfig.packages.myplugins = with pkgs.vimPlugins; {

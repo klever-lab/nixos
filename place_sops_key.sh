@@ -1,6 +1,5 @@
-#!/usr/bin/env nix-shell
-#!nix-shell -i bash --pure
-#!nix-shell -p usbutils age-plugin-yubikey age
+# this file will only run on a personal computer or the installation ISO
+# thus, we dont worry about pre-installing services, just do a quick check 
 
 set -euo pipefail
 
@@ -19,7 +18,7 @@ have_yubikey() {
 
 if have_yubikey; then
   echo "🔑  YubiKey detected."
-  ./enable_pcscd
+  echo Enter PIN and touch the device
   if ! sopsKeyValue=$(age -i yubikey_identity -d sops-nix_primary_key.age_yubikey); then
     echo "ERROR: accessing YubiKey for age private key failed!" >&2
     exit 1

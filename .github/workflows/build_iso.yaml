@@ -1,0 +1,43 @@
+name: Build ISO image
+run-name: ${{ github.event.head_commit.message }}
+on:
+  workflow_dispatch:
+
+jobs:
+  build-iso:
+    name: Build ISO
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: Build ISO
+        run: ./make_iso.sh
+
+      - name: Upload ISO as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: klever_live_installer.iso
+          path: result/iso/*.iso
+
+  publish-new-release:
+    name: Publish new release
+    needs: build-iso
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: klever_live_installer.iso
+          path: .
+
+      - name: Create new release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: "*.iso"
+          fail_on_unmatched_files: true
+          tag_name: ${{ github.run_number }}
+

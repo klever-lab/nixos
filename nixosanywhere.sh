@@ -6,7 +6,7 @@ then
   exit 1
 fi
 
-./place_age_keys.sh
+./place_sops_key.sh
 
 if [[ $# -ne 4 ]]
 then
@@ -14,7 +14,7 @@ then
   echo "Usage: ${0##*/} <config_name> <user> <host> <ssh_key_path>"
   echo "e.g.   ${0##*/} digitalocean root 192.168.0.1 ~/.ssh/klever-lab.pem"
   echo
-  echo Available Configs: digitalocean, aws-ec2, generic-cloud
+  echo "Available Configs: digitalocean, aws-ec2, aws-ec2-arm (requires arm host), generic-cloud"
   exit 1
 else
   # https://nix-community.github.io/nixos-anywhere/howtos/secrets.html

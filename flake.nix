@@ -19,7 +19,9 @@
       nixosConfigurations.live-installer = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-        ./nixosModules/iso_config.nix
+          ./nixosModules/iso_config.nix
+          ./nixosModules/disk-config.nix
+          disko.nixosModules.disko
         ];
       };
 

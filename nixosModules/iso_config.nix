@@ -6,13 +6,41 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = lib.mkForce [ "btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" ];
 
-  environment.etc."auto-install.sh" = ''
-  #!/bin/sh
-  set -euo pipefail
-  set -x
-  nixos-install --no-root-passwd
-  poweroff
+  environment.etc."auto-install.sh" = {
+  mode = "0755";
+  text = ''
+    #!/usr/bin/env bash
+    set -euo pipefail
+    set -x
+
+    # --- Detect the first non‑removable block device of type "disk" -----------
+    DISK_DEVICE=$(
+      lsblk -dnpo NAME,TYPE,RM |
+      awk '$2=="disk" && $3==0 {print $1; exit}'
+    )
+
+    if [ -z "${DISK_DEVICE:-}" ]; then
+      echo "❌  Could not find a suitable disk device" >&2
+      exit 1
+    fi
+    export DISK_DEVICE
+    echo "▶  Using ${DISK_DEVICE} as install target"
+
+    # -------------------------------------------------------------------------
+    # Partition, format and mount – **DESTROYS** the content of $DISK_DEVICE
+    disko --mode destroy,format,mount /etc/nixos/disk-config.nix
+
+    # Copy configuration into the new system
+    git clone https://github.com/klever-lab/nixos /mnt/etc/nixos
+
+    # If the repo lacks hardware‑configuration.nix, uncomment:
+    # nixos-generate-config --root /mnt
+
+    nixos-install --no-root-passwd --flake /mnt/etc/nixos
+    poweroff -f
   '';
+  };
+
   systemd.services."symlink-auto-install" = {
   description = "Symlink /etc/auto-install.sh to nixos home directory";
   after = [ "home-nixos.mount" ]; # Wait for the home dir to be mounted

@@ -19,12 +19,12 @@
       awk '$2=="disk" && $3==0 {print $1; exit}'
     )
 
-    if [ -z "${DISK_DEVICE:-}" ]; then
+    if [ -z ''${DISK_DEVICE:-} ]; then
       echo "❌  Could not find a suitable disk device" >&2
       exit 1
     fi
     export DISK_DEVICE
-    echo "▶  Using ${DISK_DEVICE} as install target"
+    echo "▶  Using ''${DISK_DEVICE} as install target"
 
     # -------------------------------------------------------------------------
     # Partition, format and mount – **DESTROYS** the content of $DISK_DEVICE

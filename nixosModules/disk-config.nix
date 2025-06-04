@@ -6,12 +6,19 @@
 #  imports = [ ./disko-config.nix ];
 #  disko.devices.disk.main.device = "/dev/sda";
 # }
-{ diskDevice ? builtins.getEnv "DISK_DEVICE" or "/dev/sda", ... }:
+{
+  diskDevice ?
+    let
+      d = builtins.getEnv "DISK_DEVICE";
+    in
+    if d != "" then d else "/dev/sda",
+  ...
+}:
 {
   disko.devices = {
     disk = {
       main = {
-      device = diskDevice;
+        device = diskDevice;
         type = "disk";
         content = {
           type = "gpt";

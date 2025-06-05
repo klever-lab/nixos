@@ -50,7 +50,7 @@ We use `sops-nix` in combination with `age` to manage encrypted secrets stored i
 
 **Remote Bootstrapping:**
 
-* The `nixosanywhere.sh` script places the decrypted primary key in a local file.
+* The `remote_bootstrap.sh` script places the decrypted primary key in a local file.
 * It uses a flag to securely copy the key to the target machine during setup.
 
 **ISO:**

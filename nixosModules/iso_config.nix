@@ -36,6 +36,9 @@
     # If the repo lacks hardware‑configuration.nix, uncomment:
     # nixos-generate-config --root /mnt
 
+    # Decrypt the SOPS key so the install can access secrets
+    env HOME=/mnt/root bash /mnt/etc/nixos/scripts/place_sops_key.sh
+
     nixos-install --no-root-passwd --flake /mnt/etc/nixos
     poweroff -f
   '';
